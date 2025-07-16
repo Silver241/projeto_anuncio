@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "cache-loader": "^4.1.0"
+  },
+  "dependencies": {
+    "git": "^0.1.5"
+  }
+}
