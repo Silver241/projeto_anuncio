@@ -66,6 +66,7 @@ export default {
     name: 'LogedAppChoise'
 }
 </script>
+<!-- oi -->
 
 <style >
 
