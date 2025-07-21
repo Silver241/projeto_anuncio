@@ -12,7 +12,9 @@ def login_user(request):
     try:
         user = User.objects.get(email=email)
         if check_password(password, user.password):
-            return Response({'message': 'Login realizado com sucesso!'}, status=status.HTTP_200_OK)
+            # Retorna os dados do usuário autenticado
+            serializer = UserSerializer(user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             print(f'Senha incorreta para o usuário: {email}')
             return Response({'message': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
