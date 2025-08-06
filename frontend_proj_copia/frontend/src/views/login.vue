@@ -15,7 +15,7 @@
                 <hr>
                 </div>
                 <button class="btn_submit log_with_ghrome" href="#"><div class="icone_ghrome"></div><span>Entrar com Google</span></button>
-                <!-- <a class="link" href="#">Já tens um conta</a> -->
+                
             </form>
         </div>
     </div>

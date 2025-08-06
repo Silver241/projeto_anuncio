@@ -19,10 +19,10 @@ export default {
     width: 100%;
     margin: 0;
     padding: 0;
-    font-family: "Sansation", sans-serif;
-  }
-  h1,h2,a{
-    color: rgb(34, 40, 49);
+    color: #333;
+    
+
+    
   }
   ul{
     list-style: none;

@@ -1,153 +1,217 @@
 <template>
-    <div class="backg">
-        <h1 class="title_form">Formulário de Anúncio</h1>
-        <form class="choice_form" action="#">
-            <ul class="list_form">
-                <li><label for="">Nome Completo</label>
-            <input type="text" class="input_text width_ajust" v-model="nomeCompleto" required></li>
-                <li><label for="">Email</label>
-            <input type="text" class="input_text width_ajust" v-model="email"></li>
-                <li><label for="">Telefone</label>
-            <input type="text" class="input_text width_ajust" v-model="telefone" required></li>
-                <li><label for="">Tipo de Anuncio</label>
-            <CustomDropdown
-                :options="minutas.map(m => ({ value: m.tipo, label: m.tipo }))"
-                v-model="selectedTipo"
-            />
-            </li>
-                
-            </ul>
-            <ul class="list_form">
-                <li><label for="">Região de Difusão</label>
-            <CustomDropdown
-                :options="[
-                    { value: '', label: 'Escolha uma opção' },
-                    { value: 'Barlavento', label: 'Barlavento' },
-                    { value: 'Sotavento', label: 'Sotavento' }
-                ]"
-                v-model="regiao"
-            />
-            </li>
-                <li><label for="">Canal de Transmissão</label>
-            <CustomDropdown
-                :options="[
-                    { value: '', label: 'Escolha uma opção' },
-                    { value: 'TCV', label: 'TCV' },
-                    { value: 'RCV', label: 'RCV' },
-                    { value: 'RCV+', label: 'RCV+' }
-                ]"
-                v-model="canal"
-            />
-            </li>
-                <li><label for="">Horário Pretendido</label>
-            <CustomDropdown
-                :options="[
-                    { value: '', label: 'Escolha uma opção' },
-                    { value: '12:30', label: '12:30' },
-                    { value: '18:30', label: '18:30' }
-                ]"
-                v-model="horario"
-            />
-            </li>
-                <li><label for="">Vezes a ser divulgado</label>
-            <CustomDropdown
-                :options="[
-                    { value: '', label: 'Escolha uma opção' },
-                    { value: '1', label: 'apenas 1 vez' },
-                    { value: '2', label: '2 vezes' },
-                    { value: '3', label: '3 vezes' },
-                    { value: '4', label: '4 vezes' },
-                    { value: '5', label: '5 vezes' },
-                    { value: '', label: 'outro' }
-                ]"
-                v-model="vezes"
-            />
-            </li>
+  <div class="backg">
+    <h1 class="title_form">Formulário de Anúncio</h1>
+    <form class="choice_form" action="#">
+      <ul class="list_form">
+        <li><label>Nome Completo</label>
+          <input type="text" class="input_text width_ajust" v-model="nomeCompleto" required>
+        </li>
+        <li><label>Email</label>
+          <input type="text" class="input_text width_ajust" v-model="email">
+        </li>
+        <li><label>Telefone</label>
+          <input type="text" class="input_text width_ajust" v-model="telefone" required>
+        </li>
+        <li><label>Tipo de Anúncio</label>
+          <CustomDropdown
+            :options="minutas.map(m => ({ value: m.tipo, label: m.tipo }))"
+            v-model="selectedTipo"
+          />
+        </li>
+      </ul>
 
-            </ul>
-            <button class="btn_submeter btn_ajust_position1" type="button" @click="showPopupMinuta = true">Minuta sugerida</button>
-            <button class="btn_submeter btn_ajust_position2">Escrever Anúncio</button>
-            <div class="popup_minuta" v-if="showPopupMinuta">
-                <textarea name="#" id="" class="textarea_minuta" v-model="conteudoMinuta"></textarea>
-                <div class="btn_cancel" @click="showPopupMinuta = false"></div>
-                <button class="btn_submeter btn_ajust_position3" type="button" @click="criarAnuncio">Submeter</button>
-            </div>
-        </form>
-    </div>
+      <ul class="list_form">
+        <li><label>Região de Difusão</label>
+          <CustomDropdown
+            :options="[
+              {
+                value: 'Barlavento',
+                label: 'Barlavento',
+                tooltip: 'Santo Antão\nSão Vicente\nSanta Luzia\nSão Nicolau\nSal\nBoavista'
+              },
+              {
+                value: 'Sotavento',
+                label: 'Sotavento',
+                tooltip: 'Santiago\nFogo\nMaio\nBrava'
+              }
+            ]"
+            v-model="regiao"
+          />
+        </li>
+
+        <li><label>Canal de Transmissão</label>
+          <CustomDropdown
+            :options="[
+              { value: 'TCV', label: 'TCV' },
+              { value: 'RCV', label: 'RCV' },
+              { value: 'RCV+', label: 'RCV+' }
+            ]"
+            v-model="canal"
+          />
+        </li>
+
+        <li><label>Horário Pretendido</label>
+          <CustomDropdown
+            :options="[
+              { value: '12:30', label: '12:30' },
+              { value: '18:30', label: '18:30' }
+            ]"
+            v-model="horario"
+          />
+        </li>
+
+        <li><label>Vezes a ser divulgado</label>
+          <CustomDropdown
+            :options="[
+              { value: '1', label: 'apenas uma vez' },
+              { value: '2', label: '2 vezes' },
+              { value: '3', label: '3 vezes' },
+              { value: '4', label: '4 vezes' },
+              { value: '5', label: '5 vezes' }
+            ]"
+            v-model="vezes"
+          />
+        </li>
+      </ul>
+
+      <button class="btn_submeter btn_ajust_position1" type="button" @click="showPopupMinuta = true">
+        Minuta sugerida
+      </button>
+      <button class="btn_submeter btn_ajust_position2" type="button">
+        Escrever Anúncio
+      </button>
+
+      <!-- Popup da Minuta com ANIMAÇÃO -->
+<transition name="expand-popup">
+  <div class="popup_minuta" v-if="showPopupMinuta">
+    <textarea class="textarea_minuta" v-model="conteudoMinuta"></textarea>
+    <div class="btn_cancel" @click="showPopupMinuta = false"></div>
+    <button class="btn_submeter btn_ajust_position3" type="button" @click="abrirPopupPagamento">
+      Submeter
+    </button>
+  </div>
+</transition>
+
+
+      <!-- Popup de Pagamento com ANIMAÇÃO -->
+<transition name="expand-popup">
+  <AppPayment
+    v-if="showPopupPagamento"
+    :show="showPopupPagamento"
+    @fechar="showPopupPagamento = false"
+    @submeter="submeterPagamento"
+  />
+</transition>
+
+    </form>
+  </div>
 </template>
 
 <script>
-    import axios from 'axios';
-    import CustomDropdown from './CustomDropdown.vue';
-    export default {
-        name: "AppChoice",
-        components: { CustomDropdown },
-        data() {
-            return {
-                minutas: [],
-                selectedTipo: '',
-                showPopupMinuta: false,
-                conteudoMinuta: '',
-                nomeCompleto: '',
-                email: '',
-                telefone: '',
-                regiao: '',
-                canal: '',
-                horario: '',
-                vezes: ''
-            };
-        },
-        methods: {
-            criarAnuncio() {
-                const minutaSelecionada = this.minutas.find(m => m.tipo === this.selectedTipo);
-                const minuta_id = minutaSelecionada ? minutaSelecionada.id : null;
-                let vezesInt = parseInt(this.vezes);
-                if (isNaN(vezesInt)) vezesInt = 1;
-                axios.post('http://127.0.0.1:8000/anuncios/create/', {
-                    minuta_id: minuta_id,
-                    user_id: null,
-                    regiao: this.regiao,
-                    canal: this.canal,
-                    horario: this.horario,
-                    vezes: vezesInt,
-                    conteudo: this.conteudoMinuta,
-                    estado: 'Pendente'
-                }).then(() => {
-                    alert('Anúncio criado com sucesso!');
-                    this.showPopupMinuta = false;
-                }).catch(error => {
-                    let msg = 'Erro ao criar anúncio: ';
-                    if (error.response && error.response.data) {
-                        msg += JSON.stringify(error.response.data);
-                    } else {
-                        msg += error.message;
-                    }
-                    alert(msg);
-                });
-            }
-        },
-        mounted() {
-            axios.get('http://127.0.0.1:8000/minutas/')
-                .then(response => {
-                    this.minutas = response.data;
-                });
-        },
-        watch: {
-            showPopupMinuta(val) {
-                if (val) {
-                    const minutaSelecionada = this.minutas.find(m => m.tipo === this.selectedTipo);
-                    this.conteudoMinuta = minutaSelecionada ? minutaSelecionada.conteudo : '';
-                }
-            },
-            selectedTipo() {
-                if (this.showPopupMinuta) {
-                    const minutaSelecionada = this.minutas.find(m => m.tipo === this.selectedTipo);
-                    this.conteudoMinuta = minutaSelecionada ? minutaSelecionada.conteudo : '';
-                }
-            }
-        }
+import axios from 'axios';
+import CustomDropdown from './CustomDropdown.vue';
+import AppPayment from './AppPayment.vue';
+
+export default {
+  name: "AppChoice",
+  components: {
+    CustomDropdown,
+    AppPayment
+  },
+  data() {
+    return {
+      minutas: [],
+      selectedTipo: '',
+      showPopupMinuta: false,
+      showPopupPagamento: false,
+      conteudoMinuta: '',
+      nomeCompleto: '',
+      email: '',
+      telefone: '',
+      regiao: '',
+      canal: '',
+      horario: '',
+      vezes: ''
+    };
+  },
+  methods: {
+    abrirPopupPagamento() {
+      if (
+        this.nomeCompleto.trim() &&
+        this.telefone.trim() &&
+        this.selectedTipo &&
+        this.regiao &&
+        this.canal &&
+        this.horario &&
+        this.vezes &&
+        this.conteudoMinuta.trim()
+      ) {
+        this.showPopupMinuta = false;
+        this.showPopupPagamento = true;
+      } else {
+        alert("Por favor, preencha todos os campos obrigatórios antes de continuar.");
+      }
+    },
+    async submeterPagamento(cartao) {
+      try {
+        const minuta = this.minutas.find(m => m.tipo === this.selectedTipo);
+        const minutaId = minuta ? minuta.id : null;
+
+        const anuncio = await axios.post('http://127.0.0.1:8000/anuncios/create/', {
+          minuta_id: minutaId,
+          user_id: null,
+          nome: this.nomeCompleto,
+          email: this.email,
+          telefone: this.telefone,
+          regiao: this.regiao,
+          canal: this.canal,
+          horario: this.horario,
+          vezes: parseInt(this.vezes) || 1,
+          conteudo: this.conteudoMinuta,
+          estado: 'Pendente'
+        });
+
+        const cartaoResp = await axios.post('http://127.0.0.1:8000/cartaos/create/', cartao);
+
+        await axios.post('http://127.0.0.1:8000/pagamentos/create/', {
+          anuncio_id: anuncio.data.id,
+          cartao_id: cartaoResp.data.id,
+          valor_total: (parseInt(this.vezes) || 1) * 200,
+          metodo_pagamento: 'Cartão'
+        });
+
+        alert('Anúncio e pagamento submetidos com sucesso!');
+        this.showPopupPagamento = false;
+
+      } catch (error) {
+        alert('Erro: ' + JSON.stringify(error.response?.data || error.message));
+      }
     }
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:8000/minutas/')
+      .then(response => {
+        this.minutas = response.data;
+      });
+  },
+  watch: {
+    showPopupMinuta(val) {
+      if (val) {
+        const m = this.minutas.find(m => m.tipo === this.selectedTipo);
+        this.conteudoMinuta = m ? m.conteudo : '';
+      }
+    },
+    selectedTipo() {
+      if (this.showPopupMinuta) {
+        const m = this.minutas.find(m => m.tipo === this.selectedTipo);
+        this.conteudoMinuta = m ? m.conteudo : '';
+      }
+    }
+  }
+};
 </script>
+
+
 
 <style>
     .backg{
@@ -284,4 +348,27 @@
     bottom: 1.5rem;
     right: 1rem;
 }
+
+/* Animação de expansão do popup da minuta */
+.expand-popup-enter-active,
+.expand-popup-leave-active {
+  transition: all 0.3s ease;
+}
+.expand-popup-enter-from {
+  opacity: 0;
+  transform: scale(0.8);
+}
+.expand-popup-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+.expand-popup-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+.expand-popup-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
 </style>

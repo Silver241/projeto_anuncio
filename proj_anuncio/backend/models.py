@@ -33,7 +33,9 @@ class Minuta(models.Model):
 class Anuncio(models.Model):
     minuta_id = models.ForeignKey(Minuta, on_delete=models.SET_NULL, null=True)
     user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    
+    nome = models.CharField(max_length=100)
+    email = models.EmailField(null=True, blank=True)
+    telefone = models.CharField(max_length=20)
     regiao = models.CharField(max_length=20, choices=[
         ('Barlavento', 'Barlavento'),
         ('Sotavento', 'Sotavento')
@@ -64,6 +66,13 @@ class Anuncio(models.Model):
         ('Concluído', 'Concluído')
     ])
 
+    def save(self, *args, **kwargs):
+        if self.user_id:
+            self.nome = self.user_id.nome
+            self.email = self.user_id.email
+            self.telefone = self.user_id.telefone
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.user_id.nome} - {self.minuta_id.tipo}" if self.user_id else "Anúncio"
 
@@ -85,6 +94,8 @@ class Pagamento(models.Model):
     anuncio_id = models.ForeignKey(Anuncio, on_delete=models.CASCADE)
     cartao_id = models.ForeignKey(Cartao, on_delete=models.SET_NULL, null=True)
     valor_total = models.FloatField()
+    metodo_pagamento = models.CharField(max_length=50)
+    data_pagamento = models.DateField(auto_now_add=True) 
 
     def __str__(self):
         return f"Pagamento de {self.valor_total}€"
@@ -94,9 +105,6 @@ class Pagamento(models.Model):
 class Fatura(models.Model):
     pagamento_id = models.OneToOneField(Pagamento, on_delete=models.CASCADE)
     numero_recibo = models.CharField(max_length=100)
-    data_pagamento = models.DateField()
-    metodo_pagamento = models.CharField(max_length=50)
-    valor = models.FloatField()
 
     def __str__(self):
         return f"Fatura #{self.numero_recibo}"
