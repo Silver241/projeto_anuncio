@@ -21,6 +21,7 @@
       </ul>
 
       <ul class="list_form">
+        
         <li><label>Região de Difusão</label>
           <CustomDropdown
             :options="[
@@ -131,7 +132,8 @@ export default {
       regiao: '',
       canal: '',
       horario: '',
-      vezes: ''
+      vezes: '',
+      userId: null
     };
   },
   methods: {
@@ -159,7 +161,7 @@ export default {
 
         const anuncio = await axios.post('http://127.0.0.1:8000/anuncios/create/', {
           minuta_id: minutaId,
-          user_id: null,
+          user_id: this.userId, // null se anônimo, id se logado
           nome: this.nomeCompleto,
           email: this.email,
           telefone: this.telefone,
@@ -189,6 +191,26 @@ export default {
     }
   },
   mounted() {
+    // Detecta usuário logado via localStorage OU via query string (compatível com LogedAppChoise)
+    let user = null;
+    // 1. Query string (como LogedAppChoise)
+    if (this.$route && this.$route.query && this.$route.query.user) {
+      try {
+        user = JSON.parse(this.$route.query.user);
+      } catch (e) { user = null; }
+    }
+    // 2. localStorage (fallback)
+    if (!user) {
+      try {
+        user = JSON.parse(localStorage.getItem('user'));
+      } catch (e) { user = null; }
+    }
+    if (user) {
+      this.nomeCompleto = user.nome || '';
+      this.email = user.email || '';
+      this.telefone = user.telefone || '';
+      this.userId = user.id || null;
+    }
     axios.get('http://127.0.0.1:8000/minutas/')
       .then(response => {
         this.minutas = response.data;

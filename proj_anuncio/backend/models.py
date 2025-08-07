@@ -36,6 +36,7 @@ class Anuncio(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField(null=True, blank=True)
     telefone = models.CharField(max_length=20)
+    data = models.DateField(auto_now_add=True)
     regiao = models.CharField(max_length=20, choices=[
         ('Barlavento', 'Barlavento'),
         ('Sotavento', 'Sotavento')

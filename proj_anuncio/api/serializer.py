@@ -52,15 +52,13 @@ class AnuncioSerializer(serializers.ModelSerializer):
             'horario',
             'vezes',
             'conteudo',
+            'data',  
             'estado'
         ]
         extra_kwargs = {
             'minuta_id': {'write_only': True},
             'user_id': {'write_only': True},
         }
-
-
-
 
 
 class PagamentoSerializer(serializers.ModelSerializer):

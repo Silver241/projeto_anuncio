@@ -104,6 +104,11 @@ export default {
   font-size: 0.9rem;
 }
 
+.input_text:focus {
+  border-color: #30526a;
+  box-shadow: 0 0 0.25rem rgba(48, 82, 106, 0.2);
+}
+
 .dropdown-options {
   /* padding: 0.06rem; */
   position: absolute;

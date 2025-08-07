@@ -1,19 +1,19 @@
 <template>
     <LogedNavBar />
-    <LogedAppChoise />
+    <AppChoise />
     <AppFooter />
 </template>
 
 <script>
 import LogedNavBar from '../components/LogedNavBar.vue';
 import AppFooter from '@/components/AppFooter.vue';
-import LogedAppChoise from '@/components/LogedAppChoise.vue';
+import AppChoise from '@/components/AppChoise.vue';
 export default {
     
     name: 'LogedUser',
     components: {
         LogedNavBar,
-        LogedAppChoise,
+        AppChoise,
         AppFooter
     },
 }
